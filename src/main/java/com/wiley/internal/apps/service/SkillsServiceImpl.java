@@ -23,20 +23,26 @@ public class SkillsServiceImpl implements SkillsService {
 	}
 
 	@Override
-	public String insertNewSkill(SkillsRequest skillsRequest) {
-		skillRepository.save(new Skill("Java"));
-		skillRepository.save(new Skill("Node"));
-		skillRepository.save(new Skill("Python"));
-		
-		skillRepository.findAll().forEach(x -> System.out.println(x));
-		
-		return "new skills added ...";
+	public List<SkillsResponse> insertNewSkill(SkillsRequest skillsRequest) {
+
+		skillsRequest.getSkills().forEach(skill -> this.skillRepository.save(new Skill(skill)));
+
+		List<SkillsResponse> skillsResponseList = new ArrayList<>();
+
+		skillRepository.findAll().forEach(skill -> {
+			SkillsResponse skillResponse = new SkillsResponse();
+			skillResponse.setId(skill.getId());
+			skillResponse.setName(skill.getName());
+			skillsResponseList.add(skillResponse);
+		});
+
+		return skillsResponseList;
 	}
 
 	@Override
 	public List<SkillsResponse> getSkillsByName(String skillName) {
 		
-		List<SkillsResponse> skillsResponses =new ArrayList<>();
+		List<SkillsResponse> skillsResponses = new ArrayList<>();
 		
 		skillRepository.findByName(skillName).forEach(skill -> {
 			SkillsResponse skillResponse = new SkillsResponse();
@@ -54,14 +60,8 @@ public class SkillsServiceImpl implements SkillsService {
 
 	@Override
 	public List<SkillsResponse> getAllSkills() {
-		/*
-		 * skillRepository.save(new Skill("Java")); skillRepository.save(new
-		 * Skill("Node")); skillRepository.save(new Skill("Python"));
-		 */
 		
-		List<SkillsResponse> skillsResponses =new ArrayList<>();
-		
-		skillRepository.findAll().forEach(x -> System.out.println(x));
+		List<SkillsResponse> skillsResponses = new ArrayList<>();
 		
 		skillRepository.findAll().forEach(skill -> {
 			SkillsResponse skillResponse = new SkillsResponse();

@@ -36,7 +36,7 @@ public class SkillsController {
 	}
 	
 	@PostMapping
-	public String handleSkillsAdd(@RequestBody SkillsRequest skillsRequest) {
+	public List<SkillsResponse> handleSkillsAdd(@RequestBody SkillsRequest skillsRequest) {
 		return this.skillsService.insertNewSkill(skillsRequest);
 	}
 	
