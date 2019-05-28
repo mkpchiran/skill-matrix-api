@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import com.wiley.internal.apps.domain.Skill;
 import com.wiley.internal.apps.domain.User;
 import com.wiley.internal.apps.domain.UserSkill;
+import com.wiley.internal.apps.dto.UserSkillRequest;
 import com.wiley.internal.apps.dto.SkillRequest;
 import com.wiley.internal.apps.dto.SkillResponse;
+import com.wiley.internal.apps.dto.SkillSearchRequest;
 import com.wiley.internal.apps.dto.UserResponse;
 import com.wiley.internal.apps.dto.UserSkillResponse;
 import com.wiley.internal.apps.exception.SkillNotFoundException;
@@ -85,7 +87,7 @@ public class SkillServiceImpl implements SkillService {
 	}
 
 	@Override
-	public UserSkillResponse addSkillToUser(String userName, SkillRequest skillsRequest) {
+	public UserSkillResponse addSkillToUser(String userName, UserSkillRequest skillsRequest) {
 
 		User user = this.userRepository.findByUserName(userName);
 
@@ -93,12 +95,12 @@ public class SkillServiceImpl implements SkillService {
 			throw new UserNotFoundException("User not found ::: " + userName);
 		}
 
-		skillsRequest.getSkills().forEach(skillName -> {
+		skillsRequest.getSkills().forEach(skillRequest -> {
 
-			Skill skill = this.skillRepository.findByName(skillName);
+			Skill skill = this.skillRepository.findByName(skillRequest.getName());
 			
 			if (skill == null) {
-				throw new SkillNotFoundException("Skill not found ::: " + skillName);
+				throw new SkillNotFoundException("Skill not found ::: " + skillRequest);
 			}
 
 			UserSkill oldUserSkill = this.userSkillRepository.findByUserAndSkill(user, skill);
@@ -110,7 +112,7 @@ public class SkillServiceImpl implements SkillService {
 
 				this.userSkillRepository.save(userSkill);
 			} else {
-				skill.setName(skillName);
+				skill.setName(skillRequest.getName());
 				oldUserSkill.setSkill(skill);
 
 				this.userSkillRepository.save(oldUserSkill);
@@ -141,6 +143,40 @@ public class SkillServiceImpl implements SkillService {
 		userSkillResponse.setSkill(skillResponseList);
 
 		return userSkillResponse;
+	}
+
+	@Override
+	public List<UserResponse> getUsersForSkills(List<SkillSearchRequest> searchRequests) {
+		
+		List<UserResponse> userResponseList = new ArrayList<>();
+		
+		searchRequests.forEach(searchItem -> {
+			
+			String level = searchItem.getSkillLevel();
+			
+			List<UserSkill> userSkills = null;
+			
+			Skill skill = this.skillRepository.findByName(searchItem.getSkillName());
+			
+			if (level != null && skill != null) {
+				userSkills = this.userSkillRepository.findByLevelAndSkill(Integer.parseInt(level), skill);
+			} else if (skill != null) {
+				userSkills = this.userSkillRepository.findBySkill(skill);
+			} else {
+				throw new SkillNotFoundException("Skill Not Found ::: " + searchItem.getSkillName());
+			}
+			
+			userSkills.forEach(userSkill -> {
+				UserResponse userResponse = new UserResponse();
+				userResponse.setId(userSkill.getId());
+				userResponse.setName(userSkill.getUser().getUserName());
+				
+				userResponseList.add(userResponse);
+			});
+			
+		});
+		
+		return userResponseList;
 	}
 
 }

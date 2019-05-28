@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wiley.internal.apps.dto.UserSkillRequest;
 import com.wiley.internal.apps.dto.SkillRequest;
 import com.wiley.internal.apps.dto.SkillResponse;
 import com.wiley.internal.apps.dto.UserSkillResponse;
@@ -42,7 +43,7 @@ public class SkillController {
 	}
 	
 	@PostMapping("/{userName}")
-	public UserSkillResponse handleSkillAddForUser(@PathVariable String userName, @RequestBody SkillRequest skillsRequest) {
+	public UserSkillResponse handleSkillAddForUser(@PathVariable String userName, @RequestBody UserSkillRequest skillsRequest) {
 		return this.skillsService.addSkillToUser(userName, skillsRequest);
 	}
 

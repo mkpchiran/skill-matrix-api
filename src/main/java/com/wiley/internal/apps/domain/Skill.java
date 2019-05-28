@@ -20,6 +20,7 @@ public class Skill {
 	
 	private String name;
 	
+	
 	@OneToMany(mappedBy = "skill")
 	private Set<UserSkill> userSkills = new HashSet<>();
 
