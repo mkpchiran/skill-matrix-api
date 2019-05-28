@@ -1,2 +1,10 @@
 server:
   port: 8082
+  
+spring:
+  jpa:
+    show-sql: true
+  h2:
+    console:
+      path: /h2-console
+      enabled: true

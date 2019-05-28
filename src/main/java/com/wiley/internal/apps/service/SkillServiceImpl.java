@@ -109,12 +109,13 @@ public class SkillServiceImpl implements SkillService {
 				UserSkill userSkill = new UserSkill();
 				userSkill.setSkill(skill);
 				userSkill.setUser(user);
+				userSkill.setLevel(skillRequest.getLevel());
 
 				this.userSkillRepository.save(userSkill);
 			} else {
 				skill.setName(skillRequest.getName());
 				oldUserSkill.setSkill(skill);
-
+				oldUserSkill.setLevel(skillRequest.getLevel());
 				this.userSkillRepository.save(oldUserSkill);
 			}
 
@@ -152,14 +153,13 @@ public class SkillServiceImpl implements SkillService {
 		
 		searchRequests.forEach(searchItem -> {
 			
-			String level = searchItem.getSkillLevel();
-			
 			List<UserSkill> userSkills = null;
 			
 			Skill skill = this.skillRepository.findByName(searchItem.getSkillName());
 			
+			String level = searchItem.getSkillLevel();
 			if (level != null && skill != null) {
-				userSkills = this.userSkillRepository.findByLevelAndSkill(Integer.parseInt(level), skill);
+				userSkills = this.userSkillRepository.findBySkillAndLevel(skill,Integer.parseInt(level));
 			} else if (skill != null) {
 				userSkills = this.userSkillRepository.findBySkill(skill);
 			} else {
