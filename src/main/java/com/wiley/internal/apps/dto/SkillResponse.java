@@ -1,6 +1,6 @@
 package com.wiley.internal.apps.dto;
 
-public class SkillsResponse {
+public class SkillResponse {
 	
 	private long id;
 	

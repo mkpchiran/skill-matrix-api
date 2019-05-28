@@ -11,42 +11,38 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Skill {
+public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "SKILL_ID")
-	private Long id;
+	@Column(name = "USER_ID")
+	private Long Id;
 	
-	private String name;
+	private String userName;
 	
-	@OneToMany(mappedBy = "skill")
+	@OneToMany(mappedBy = "user")
 	private Set<UserSkill> userSkills = new HashSet<>();
-
-	public Skill() {
-		
-	}
 	
-	public Skill(String name) {
-		this.name = name;
-	}
+	public User() {
 		
+	}
+
 	public Long getId() {
-		return id;
+		return Id;
 	}
 
 	public void setId(Long id) {
-		this.id = id;
+		Id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
-	
+
 	public Set<UserSkill> getUserSkills() {
 		return userSkills;
 	}
@@ -54,9 +50,5 @@ public class Skill {
 	public void setUserSkills(Set<UserSkill> userSkills) {
 		this.userSkills = userSkills;
 	}
-
-	public String toString() {
-		return "Skill Id : " + this.id + " Skill Name : " + this.name;
-	}
-
+	
 }

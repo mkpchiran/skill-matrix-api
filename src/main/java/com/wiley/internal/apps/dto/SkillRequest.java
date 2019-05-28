@@ -2,7 +2,7 @@ package com.wiley.internal.apps.dto;
 
 import java.util.List;
 
-public class SkillsRequest {
+public class SkillRequest {
 	
 	private List<String> skills;
 	
