@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "USER_SKILL")
 public class UserSkill {
@@ -24,14 +26,17 @@ public class UserSkill {
 	@Column(name = "EXPERIENCE")
 	private Float experience;
 
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY) 
 	@JoinColumn(name = "SKILL_LEVEL_ID")  
 	private SkillLevel skillLevel;
 	
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_NAME")  
 	private User user;
 	
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "SKILL_ID")  
 	private Skill skill;

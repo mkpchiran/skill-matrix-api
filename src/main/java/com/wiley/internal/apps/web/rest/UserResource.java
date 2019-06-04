@@ -1,5 +1,6 @@
 package com.wiley.internal.apps.web.rest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ public class UserResource {
 	
 	private UserSkillService userSkillService;
 	
+	@Autowired
 	public UserResource(final UserService userService, final UserSkillService userSkillService) {
 		this.userService = userService;
 		this.userSkillService = userSkillService;
