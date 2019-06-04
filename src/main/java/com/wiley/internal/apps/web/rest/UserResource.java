@@ -1,6 +1,8 @@
 package com.wiley.internal.apps.web.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,28 +19,28 @@ import com.wiley.internal.apps.service.UserSkillService;
 public class UserResource {
 
 	private UserService userService;
-	
+
 	private UserSkillService userSkillService;
-	
+
 	@Autowired
 	public UserResource(final UserService userService, final UserSkillService userSkillService) {
 		this.userService = userService;
 		this.userSkillService = userSkillService;
 	}
 
-	@GetMapping("/users/{userName}")
+	@GetMapping("/v1/users/{userName}")
 	public User handleUserGet(@PathVariable String userName) {
-		return null;
+		return this.userService.findUser(userName);
 	}
-	
-	@DeleteMapping("/users/{userName}")
+
+	@DeleteMapping("/v1/users/{userName}")
 	public void handleUserDelete(@PathVariable String userName) {
 		this.userService.deleteUser(userName);
 	}
-	
-	@PostMapping("/users/{userName}/skills")
-	public UserSkill handleUserSkillCreate(@RequestBody UserSkill userSkill) {
-		return this.userSkillService.createSkillForUser(userSkill);
+
+	@PostMapping("/v1/users/{userName}/skills")
+	public ResponseEntity<UserSkill> handleUserSkillCreate(@RequestBody UserSkill userSkill) {
+		return new ResponseEntity<>(this.userSkillService.createSkillForUser(userSkill), HttpStatus.CREATED);
 	}
-	
+
 }

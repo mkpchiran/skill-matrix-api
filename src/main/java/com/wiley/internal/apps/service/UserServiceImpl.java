@@ -1,11 +1,13 @@
 package com.wiley.internal.apps.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wiley.internal.apps.domain.User;
+import com.wiley.internal.apps.exception.UserNotFoundException;
 import com.wiley.internal.apps.repo.UserRepository;
 
 @Service
@@ -31,6 +33,17 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void deleteUser(String userName) {
 		 this.userRepository.deleteById(userName);
+	}
+
+	@Override
+	public User findUser(String userName) {
+		Optional<User> userOprtional = this.userRepository.findById(userName);
+		
+		if (!userOprtional.isPresent()) {
+			throw new UserNotFoundException("User does not exsists :: " + userName);
+		}
+		
+		return userOprtional.get();
 	}
 
 }

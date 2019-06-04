@@ -3,7 +3,11 @@ package com.wiley.internal.apps.web.rest;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,9 +24,9 @@ import com.wiley.internal.apps.service.UserSkillService;
 
 @RestController
 public class SkillResource {
-	
+
 	private SkillService skillService;
-	
+
 	private UserSkillService userSkillService;
 
 	@Autowired
@@ -30,33 +34,34 @@ public class SkillResource {
 		this.skillService = skillService;
 		this.userSkillService = userSkillService;
 	}
-	
-	@PostMapping("/skills")
-	public Skill handleSkillCreateAndUpdate(@RequestBody Skill skill) {
-		return this.skillService.createSkill(skill);
+
+	@PostMapping("/v1/skills")
+	public ResponseEntity<Skill> handleSkillCreateAndUpdate(@Valid @RequestBody Skill skill) {
+		return new ResponseEntity<>(this.skillService.createSkill(skill), HttpStatus.CREATED);
 	}
-	
-	@GetMapping("/skills/{skillId}")
-	public void handleSkillGet(@PathVariable Long skillId) {
-		
+
+	@GetMapping("/v1/skills/{skillName}")
+	public List<Skill> handleSkillGet(@PathVariable String skillName) {
+		return this.skillService.findSkillByName(skillName);
 	}
-	
-	@GetMapping("/skills")
+
+	@GetMapping("/v1/skills")
 	public List<Skill> handleSkillGetAll() {
 		return this.skillService.retrieveAllSkills();
 	}
-	
-	@DeleteMapping("/skills/{skillId}")
+
+	@DeleteMapping("/v1/skills/{skillId}")
 	public void handleSkillDelete(@PathVariable Long skillId) {
 		this.skillService.deleteSkill(skillId);
 	}
-	
-	@GetMapping("/skills/users/skillusersearch")
+
+	@GetMapping("/v1/skills/users/skillusersearch")
 	public List<UserSkill> handleSkillsUsersSearch(@RequestParam String filter) {
-		//sample filter = skillId::1200,skillLevelId::2502;skillId::1201,skillLevelId::2501
+		// sample filter =
+		// skillId::1200,skillLevelId::2502;skillId::1201,skillLevelId::2501
 		List<UserSkillSearch> usersSkills = new ArrayList<>();
-		String [] groups = filter.split(";");
-		
+		String[] groups = filter.split(";");
+
 		for (String group : groups) {
 			UserSkillSearch userSkill = new UserSkillSearch();
 			String[] paramGroups = group.split(",");
@@ -74,7 +79,7 @@ public class SkillResource {
 			}
 			usersSkills.add(userSkill);
 		}
-		
+
 		return this.userSkillService.filterUsersForSkills(usersSkills);
 	}
 

@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "SKILL")
@@ -15,8 +16,9 @@ public class Skill {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "SKILL_ID")
 	private Long id;
-	
+
 	@Column(name = "Name")
+	@Size(max = 10, message = "skill name can not have more than 10 characters")
 	private String name;
 
 	public Long getId() {
@@ -34,5 +36,5 @@ public class Skill {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 }
