@@ -17,6 +17,6 @@ public interface UserSkillRepository extends JpaRepository<UserSkill, Long> {
 	
 	public List<UserSkill> findBySkill(Skill skill);
 	
-	public List<UserSkill> findBySkillAndLevel(Skill skill, Integer level);
+	public List<UserSkill> findBySkillAndExpRank(Skill skill, Integer level);
 	
 }

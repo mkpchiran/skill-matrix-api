@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wiley.internal.apps.dto.SkillSearchRequest;
+import com.wiley.internal.apps.dto.UserAuthGroupsResponse;
 import com.wiley.internal.apps.dto.UserRequest;
 import com.wiley.internal.apps.dto.UserResponse;
 import com.wiley.internal.apps.service.SkillService;
+import com.wiley.internal.apps.service.UserAuthService;
 import com.wiley.internal.apps.service.UserService;
 
 @RestController
@@ -26,10 +28,13 @@ public class UserController {
 	
 	private SkillService skillService;
 	
+	private UserAuthService userAuthService;
+	
 	@Autowired
-	public UserController(UserService userService, SkillService skillService) {
+	public UserController(UserService userService, SkillService skillService, UserAuthService userAuthService) {
 		this.userService = userService;
 		this.skillService = skillService;
+		this.userAuthService = userAuthService;
 	}
 	
 	@GetMapping
@@ -40,6 +45,11 @@ public class UserController {
 	@GetMapping("/{userName}")
 	public UserResponse handleUserGetByName(@PathVariable String userName) {
 		return this.userService.getUserByName(userName);
+	}
+	
+	@GetMapping("/{userName}/roles")
+	public UserAuthGroupsResponse handleGetUserAuthGroupbyName(@PathVariable String userName) {
+		return this.userAuthService.getByUsername(userName);
 	}
 	
 	@GetMapping("/skills")

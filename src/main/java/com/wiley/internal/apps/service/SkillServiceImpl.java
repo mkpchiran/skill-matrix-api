@@ -80,6 +80,7 @@ public class SkillServiceImpl implements SkillService {
 			SkillResponse skillResponse = new SkillResponse();
 			skillResponse.setId(skill.getId());
 			skillResponse.setName(skill.getName());
+			skillResponse.setVersion(skill.getVersion());
 			skillsResponses.add(skillResponse);
 		});
 		
@@ -109,13 +110,13 @@ public class SkillServiceImpl implements SkillService {
 				UserSkill userSkill = new UserSkill();
 				userSkill.setSkill(skill);
 				userSkill.setUser(user);
-				userSkill.setLevel(skillRequest.getLevel());
+				userSkill.setExpRank(skillRequest.getLevel());
 
 				this.userSkillRepository.save(userSkill);
 			} else {
 				skill.setName(skillRequest.getName());
 				oldUserSkill.setSkill(skill);
-				oldUserSkill.setLevel(skillRequest.getLevel());
+				oldUserSkill.setExpRank(skillRequest.getLevel());
 				this.userSkillRepository.save(oldUserSkill);
 			}
 
@@ -159,7 +160,7 @@ public class SkillServiceImpl implements SkillService {
 			
 			String level = searchItem.getSkillLevel();
 			if (level != null && skill != null) {
-				userSkills = this.userSkillRepository.findBySkillAndLevel(skill,Integer.parseInt(level));
+				userSkills = this.userSkillRepository.findBySkillAndExpRank(skill,Integer.parseInt(level));
 			} else if (skill != null) {
 				userSkills = this.userSkillRepository.findBySkill(skill);
 			} else {

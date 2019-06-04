@@ -1,5 +1,7 @@
 package com.wiley.internal.apps.domain;
 
+import java.sql.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,8 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="USER_SKILL")
 public class UserSkill {
 
 	@Id
@@ -17,7 +21,17 @@ public class UserSkill {
 	@Column(name = "USER_SKILL_ID")
 	private Long id;
 
-	private Integer level;
+	@Column(name = "EXP_RANK")
+	private Integer expRank;
+	
+	@Column(name = "EXPERIENCE")
+	private Long experience;
+	
+	@Column(name = "LAST_USED")
+	private Date lastUsed;
+	
+	@Column(name = "COMMENT", nullable = true)
+	private String comment;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "USER_ID")  
@@ -39,12 +53,12 @@ public class UserSkill {
 		this.id = id;
 	}
 
-	public Integer getLevel() {
-		return level;
+	public Integer getExpRank() {
+		return expRank;
 	}
 
-	public void setLevel(Integer level) {
-		this.level = level;
+	public void setExpRank(Integer expRank) {
+		this.expRank = expRank;
 	}
 
 	public User getUser() {
@@ -63,4 +77,27 @@ public class UserSkill {
 		this.skill = skill;
 	}
 	
+	public Long getExperience() {
+		return experience;
+	}
+
+	public void setExperience(Long experience) {
+		this.experience = experience;
+	}
+
+	public Date getLastUsed() {
+		return lastUsed;
+	}
+
+	public void setLastUsed(Date lastUsed) {
+		this.lastUsed = lastUsed;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
 }

@@ -29,5 +29,6 @@ HELP.md
 /[Help
 /logs
 *.log
+*.log.*
 ### VS Code ###
 .vscode/
