@@ -33,4 +33,6 @@ public class WileyUserDetailsService  implements UserDetailsService{
         List<UserAuthGroup> authGroups = this.authGroupRepository.findByUsername(username);
         return new WileyUserPrincipal(user, authGroups);
     }
+    
+    
 }

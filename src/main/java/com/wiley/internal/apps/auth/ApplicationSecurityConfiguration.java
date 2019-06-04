@@ -31,9 +31,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
         provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
         return provider;
     }
-	
-	
-	
+		
 	@Bean
     public GrantedAuthoritiesMapper authoritiesMapper(){
         SimpleAuthorityMapper authorityMapper = new SimpleAuthorityMapper();
@@ -45,6 +43,5 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
 	@Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
-
     }
 }

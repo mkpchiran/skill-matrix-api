@@ -1,13 +1,21 @@
-INSERT INTO auth_user_group VALUES (null,'user','user');
-INSERT INTO auth_user_group VALUES (null,'admin','user1');
+insert into skill (skill_id, name) values (1200, 'java');
+insert into skill (skill_id, name) values (1201, 'react');
+insert into skill (skill_id, name) values (1202, 'spring');
+insert into skill (skill_id, name) values (1203, 'struts');
+insert into skill (skill_id, name) values (1204, 'oracle');
 
-INSERT INTO skill VALUES (1,'Java',8);
-INSERT INTO skill VALUES (2,'Spring Boot',2);
+insert into user (user_name, designation) values ('mbandara', 'Technical Specialist');
+insert into user (user_name, designation) values ('cananda', 'Senior Technical Lead');
+insert into user (user_name, designation) values ('uhoranagama', 'Senior Technical Specialist');
+insert into user (user_name, designation) values ('cprathiba', 'Senior Software Engineer');
 
-INSERT INTO user VALUES (1,'Software Engineer','Software Engineer',1,'password','2019-05-06',4,'user');
-INSERT INTO user VALUES (2,'Sr Software Engineer','Sr Software Engineer',1,'password','2019-05-06',6,'user1');
+insert into skill_level (skill_level_id,  value, description) values (2500, 'Beginner', 'Do not have experience');
+insert into skill_level (skill_level_id,  value, description) values (2501, 'Average', 'Have average experience');
+insert into skill_level (skill_level_id,  value, description) values (2502, 'Expert', 'Well experienced');
 
-INSERT INTO user_skill VALUES (1,NULL,4,5,'2019-05-06',1,1);
-INSERT INTO user_skill VALUES (2,NULL,6,4,'2019-05-05',1,2);
-INSERT INTO user_skill VALUES (3,NULL,9,9,'2019-05-04',2,2);
-INSERT INTO user_skill VALUES (4,'Production used is zero',2,5,'2019-05-03',2,1);
+
+insert into user_skill (user_skill_id, experience, skill_id, skill_level_id, user_name) values (3000, 9.5, 1200, 2502, 'mbandara');
+insert into user_skill (user_skill_id, experience, skill_id, skill_level_id, user_name) values (3001, 9.5, 1202, 2502, 'mbandara');
+insert into user_skill (user_skill_id, experience, skill_id, skill_level_id, user_name) values (3002, 9.5, 1201, 2501, 'mbandara');
+insert into user_skill (user_skill_id, experience, skill_id, skill_level_id, user_name) values (3003, 3.5, 1201, 2500, 'cprathiba');
+insert into user_skill (user_skill_id, experience, skill_id, skill_level_id, user_name) values (3004, 3.5, 1200, 2501, 'cprathiba');
