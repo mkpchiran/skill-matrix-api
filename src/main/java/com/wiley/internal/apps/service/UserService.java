@@ -2,14 +2,13 @@ package com.wiley.internal.apps.service;
 
 import java.util.List;
 
-import com.wiley.internal.apps.dto.UserRequest;
-import com.wiley.internal.apps.dto.UserResponse;
+import com.wiley.internal.apps.domain.User;
 
 public interface UserService {
 
-	List<UserResponse> insertNewUser(UserRequest user);
+	User createUser(User user);
 	
-	List<UserResponse> getAllUsers();
+	List<User> retrieveAllUsers();
 	
-	UserResponse getUserByName(String userName);
+	void deleteUser(String userName);
 }

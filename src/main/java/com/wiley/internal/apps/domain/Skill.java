@@ -1,16 +1,14 @@
 package com.wiley.internal.apps.domain;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "SKILL")
 public class Skill {
 
 	@Id
@@ -18,20 +16,9 @@ public class Skill {
 	@Column(name = "SKILL_ID")
 	private Long id;
 	
+	@Column(name = "Name")
 	private String name;
-	
-	
-	@OneToMany(mappedBy = "skill")
-	private Set<UserSkill> userSkills = new HashSet<>();
 
-	public Skill() {
-		
-	}
-	
-	public Skill(String name) {
-		this.name = name;
-	}
-		
 	public Long getId() {
 		return id;
 	}
@@ -48,16 +35,4 @@ public class Skill {
 		this.name = name;
 	}
 	
-	public Set<UserSkill> getUserSkills() {
-		return userSkills;
-	}
-
-	public void setUserSkills(Set<UserSkill> userSkills) {
-		this.userSkills = userSkills;
-	}
-
-	public String toString() {
-		return "Skill Id : " + this.id + " Skill Name : " + this.name;
-	}
-
 }

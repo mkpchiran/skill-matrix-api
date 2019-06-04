@@ -1,38 +1,27 @@
 package com.wiley.internal.apps.domain;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "USER")
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "USER_ID")
-	private Long Id;
-	
+	@Column(name = "USER_NAME")
 	private String userName;
 	
-	@OneToMany(mappedBy = "user")
-	private Set<UserSkill> userSkills = new HashSet<>();
+	@Column(name = "DESIGNATION")
+	private String designation;
 	
 	public User() {
 		
 	}
-
-	public Long getId() {
-		return Id;
-	}
-
-	public void setId(Long id) {
-		Id = id;
+		
+	public User(final String userName) {
+		this.userName = userName;
 	}
 
 	public String getUserName() {
@@ -43,12 +32,12 @@ public class User {
 		this.userName = userName;
 	}
 
-	public Set<UserSkill> getUserSkills() {
-		return userSkills;
+	public String getDesignation() {
+		return designation;
 	}
 
-	public void setUserSkills(Set<UserSkill> userSkills) {
-		this.userSkills = userSkills;
+	public void setDesignation(String designation) {
+		this.designation = designation;
 	}
 	
 }
