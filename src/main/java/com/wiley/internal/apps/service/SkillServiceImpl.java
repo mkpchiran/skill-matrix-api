@@ -33,4 +33,8 @@ public class SkillServiceImpl implements SkillService {
 		this.skillRepository.deleteById(skillId);		
 	}
 
+	public List<Skill> findSkillByName(String skillName) {
+		return this.skillRepository.findByNameContaining(skillName);
+	}
+
 }

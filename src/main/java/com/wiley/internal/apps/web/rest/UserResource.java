@@ -2,6 +2,9 @@ package com.wiley.internal.apps.web.rest;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,22 +22,19 @@ import com.wiley.internal.apps.service.UserSkillService;
 public class UserResource {
 
 	private UserService userService;
-	
+
 	private UserSkillService userSkillService;
 	
 	private UserAuthService userAuthService;
-	
-	public UserResource(
-			final UserService userService, 
-			final UserSkillService userSkillService, 
-			final UserAuthService userAuthService) {
-		
+
+	@Autowired
+	public UserResource(final UserService userService, final UserSkillService userSkillService) {
 		this.userService = userService;
 		this.userSkillService = userSkillService;
 		this.userAuthService = userAuthService;
 	}
 
-	@GetMapping("/users/{userName}")
+	@GetMapping("/v1/users/{userName}")
 	public User handleUserGet(@PathVariable String userName) {
 		return userService.findUser(userName);
 	}
@@ -43,15 +43,15 @@ public class UserResource {
 	public List<String> handleUserGetUserRoles(@PathVariable String userName) {
 		return userAuthService.getByUsername(userName);
 	}
-	
-	@DeleteMapping("/users/{userName}")
+
+	@DeleteMapping("/v1/users/{userName}")
 	public void handleUserDelete(@PathVariable String userName) {
 		this.userService.deleteUser(userName);
 	}
-	
-	@PostMapping("/users/{userName}/skills")
-	public UserSkill handleUserSkillCreate(@RequestBody UserSkill userSkill) {
-		return this.userSkillService.createSkillForUser(userSkill);
+
+	@PostMapping("/v1/users/{userName}/skills")
+	public ResponseEntity<UserSkill> handleUserSkillCreate(@RequestBody UserSkill userSkill) {
+		return new ResponseEntity<>(this.userSkillService.createSkillForUser(userSkill), HttpStatus.CREATED);
 	}
-	
+
 }

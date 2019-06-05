@@ -1,5 +1,7 @@
 package com.wiley.internal.apps.service;
 
+import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +11,7 @@ import com.wiley.internal.apps.domain.Skill;
 import com.wiley.internal.apps.domain.SkillLevel;
 import com.wiley.internal.apps.domain.User;
 import com.wiley.internal.apps.domain.UserSkill;
+import com.wiley.internal.apps.dto.UserSkillSearch;
 import com.wiley.internal.apps.exception.SkillLevelNotFoundException;
 import com.wiley.internal.apps.exception.SkillNotFoundException;
 import com.wiley.internal.apps.exception.UserNotFoundException;
@@ -37,29 +40,29 @@ public class UserSkillServiceImpl implements UserSkillService {
 	public UserSkill createSkillForUser(UserSkill userSkill) {
 		
 		String userName = userSkill.getUser().getUserName();
-		Optional<User> user = this.userRepository.findById(userName);
+		Optional<User> userOptional = this.userRepository.findById(userName);
 		
-		if (!user.isPresent()) {
+		if (!userOptional.isPresent()) {
 			throw new UserNotFoundException("User does not exsits :: " + userName);
 		}
 		
 		Long skillId = userSkill.getSkill().getId();
-		Optional<Skill> skill = this.skillRepository.findById(skillId);
+		Optional<Skill> skillOptional = this.skillRepository.findById(skillId);
 		
-		if (!skill.isPresent()) {
+		if (!skillOptional.isPresent()) {
 			throw new SkillNotFoundException("Skill does not exsits :: " + skillId);
 		}
 		
 		Long skillLevelId = userSkill.getSkillLevel().getId();
-		Optional<SkillLevel> skillLevel = this.skillLevelRepository.findById(skillLevelId);
+		Optional<SkillLevel> skillLevelOptional = this.skillLevelRepository.findById(skillLevelId);
 		
-		if (!skillLevel.isPresent()) {
+		if (!skillLevelOptional.isPresent()) {
 			throw new SkillLevelNotFoundException("Skill Level does not exsits :: " + skillLevelId);
 		}
 		
-		userSkill.setUser(user.get());
-		userSkill.setSkill(skill.get());
-		userSkill.setSkillLevel(skillLevel.get());
+		userSkill.setUser(userOptional.get());
+		userSkill.setSkill(skillOptional.get());
+		userSkill.setSkillLevel(skillLevelOptional.get());
 		
 		return this.userSkillRepository.save(userSkill);
 	}
@@ -73,6 +76,36 @@ public class UserSkillServiceImpl implements UserSkillService {
 			throw new UserNotFoundException("User does not exsits :: " + username);
 		}
 		return this.userSkillRepository.findByUser(user.get());
+	}
+	
+	public List<UserSkill> filterUsersForSkills(List<UserSkillSearch> userSkillSearchList) {
+		
+		List<UserSkill> userSkillList = new ArrayList<>();
+		
+		userSkillSearchList.forEach(userSkillSearch -> {
+			Long skillId = userSkillSearch.getSkillId();
+			Optional<Skill> skillOptional = this.skillRepository.findById(skillId);
+			
+			if (!skillOptional.isPresent()) {
+				throw new SkillNotFoundException("Skill does not exsits :: " + skillId);
+			}
+			
+			Long skillLevelId = userSkillSearch.getSkillLevelId();
+			Optional<SkillLevel> skillLevelOptional = this.skillLevelRepository.findById(skillLevelId);
+			
+			if (!skillLevelOptional.isPresent()) {
+				throw new SkillLevelNotFoundException("Skill Level does not exsits :: " + skillLevelId);
+			}
+			
+			Optional<UserSkill> userSkillOptional = this.userSkillRepository.findBySkillAndSkillLevel(skillOptional.get(), skillLevelOptional.get());
+			
+			if (userSkillOptional.isPresent()) {
+				userSkillList.add(userSkillOptional.get());
+			}
+		});
+		
+		return userSkillList;
+
 	}
 
 }

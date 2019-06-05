@@ -8,7 +8,9 @@ public interface SkillService {
 	
 	Skill createSkill(Skill skill);
 	
-	List<Skill> retrieveAllSkills();
-	
 	void deleteSkill(Long skillId);
+	
+	List<Skill> findSkillByName(String skillName);
+	
+	List<Skill> retrieveAllSkills();
 }

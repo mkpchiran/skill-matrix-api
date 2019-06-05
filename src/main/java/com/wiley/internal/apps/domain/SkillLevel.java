@@ -20,10 +20,10 @@ public class SkillLevel {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "SKILL_LEVEL_ID")
 	private Long id;
-	
+
 	@Column(name = "VALUE")
 	private String value;
-	
+
 	@Column(name = "DESCRIPTION")
 	private String description;
 

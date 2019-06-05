@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -20,8 +21,9 @@ public class Skill {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "SKILL_ID")
 	private Long id;
-	
+
 	@Column(name = "Name")
+	@Size(max = 10, message = "skill name can not have more than 10 characters")
 	private String name;
 
     @CreatedDate
@@ -65,3 +67,4 @@ public class Skill {
 	}
 	    
 }
+

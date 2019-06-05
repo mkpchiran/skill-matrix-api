@@ -16,6 +16,7 @@ import javax.persistence.Table;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "USER_SKILL")
@@ -25,20 +26,23 @@ public class UserSkill {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "USER_SKILL_ID")
 	private Long id;
-	
+
 	@Column(name = "EXPERIENCE")
 	private Float experience;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY) 
-	@JoinColumn(name = "SKILL_LEVEL_ID")  
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "SKILL_LEVEL_ID")
 	private SkillLevel skillLevel;
-	
+
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_NAME")  
+	@JoinColumn(name = "USER_NAME")
 	private User user;
-	
+
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "SKILL_ID")  
+	@JoinColumn(name = "SKILL_ID")
 	private Skill skill;
 	
     @CreatedDate
