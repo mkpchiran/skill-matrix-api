@@ -1,5 +1,7 @@
 package com.wiley.internal.apps.web.rest;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.wiley.internal.apps.domain.User;
 import com.wiley.internal.apps.domain.UserSkill;
+import com.wiley.internal.apps.service.UserAuthService;
 import com.wiley.internal.apps.service.UserService;
 import com.wiley.internal.apps.service.UserSkillService;
 
@@ -19,19 +22,26 @@ public class UserResource {
 	
 	private UserSkillService userSkillService;
 	
-	public UserResource(final UserService userService, final UserSkillService userSkillService) {
+	private UserAuthService userAuthService;
+	
+	public UserResource(
+			final UserService userService, 
+			final UserSkillService userSkillService, 
+			final UserAuthService userAuthService) {
+		
 		this.userService = userService;
 		this.userSkillService = userSkillService;
+		this.userAuthService = userAuthService;
 	}
 
 	@GetMapping("/users/{userName}")
 	public User handleUserGet(@PathVariable String userName) {
-		return null;
+		return userService.findUser(userName);
 	}
 	
 	@GetMapping("/users/{userName}/roles")
-	public User handleUserGetUserRoles(@PathVariable String userName) {
-		return null;
+	public List<String> handleUserGetUserRoles(@PathVariable String userName) {
+		return userAuthService.getByUsername(userName);
 	}
 	
 	@DeleteMapping("/users/{userName}")
