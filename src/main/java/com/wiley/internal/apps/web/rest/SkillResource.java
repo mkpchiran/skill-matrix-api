@@ -3,6 +3,7 @@ package com.wiley.internal.apps.web.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,11 +29,13 @@ public class SkillResource {
 		return this.skillService.createSkill(skill);
 	}
 	
+    @PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping("/skills/{skillId}")
-	public void handleSkillGet(@PathVariable Long skillId) {
-		
+	public String handleSkillGet(@PathVariable Long skillId) {
+		return "ok";
 	}
 	
+    @PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping("/skills")
 	public List<Skill> handleSkillGetAll() {
 		return this.skillService.retrieveAllSkills();

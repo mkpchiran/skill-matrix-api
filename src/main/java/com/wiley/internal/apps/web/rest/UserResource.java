@@ -29,6 +29,11 @@ public class UserResource {
 		return null;
 	}
 	
+	@GetMapping("/users/{userName}/roles")
+	public User handleUserGetUserRoles(@PathVariable String userName) {
+		return null;
+	}
+	
 	@DeleteMapping("/users/{userName}")
 	public void handleUserDelete(@PathVariable String userName) {
 		this.userService.deleteUser(userName);

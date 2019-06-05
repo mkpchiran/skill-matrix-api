@@ -9,12 +9,23 @@ import javax.persistence.Table;
 @Table(name = "USER")
 public class User {
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	@Id
 	@Column(name = "USER_NAME")
 	private String userName;
 	
 	@Column(name = "DESIGNATION")
 	private String designation;
+	
+	@Column(name = "PASSWORD")
+	private String password;
 	
 	public User() {
 		

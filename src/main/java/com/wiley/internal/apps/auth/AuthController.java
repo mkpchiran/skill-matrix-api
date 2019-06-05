@@ -15,8 +15,8 @@ import com.wiley.internal.apps.repo.UserRepository;
 @Controller
 public class AuthController {
 	
-	@Autowired
-	private WileyUserDetailsService wileyUserDetailsService;
+//	@Autowired
+//	private WileyUserDetailsService wileyUserDetailsService;
 	
 	@Autowired
 	private UserAuthGroupRepository userAuthGroupRepository;
@@ -24,23 +24,23 @@ public class AuthController {
 	@Autowired
 	private UserRepository userRepository;
 
-    @RequestMapping("/authorization-code/callback")
+    @RequestMapping("/")
     @ResponseBody
     public String home(@AuthenticationPrincipal OidcUser oidcUser) {
     	
-    	User user = userRepository.findByUserName(oidcUser.getEmail());
+    	User user = userRepository.findById(oidcUser.getEmail()).get();
     	if(user == null) {
-    		User newUser = new User();
-    		newUser.setUserName(oidcUser.getEmail());
-    		newUser = userRepository.save(newUser);
-    		
+    		user = new User();
+    		user.setUserName(oidcUser.getEmail());
+    		user = userRepository.save(user);
+    		System.out.println(user.getDesignation());
     		UserAuthGroup authGroup = new UserAuthGroup();
     		authGroup.setAuthGroup("USER");
-    		authGroup.setUsername(newUser.getUserName());
+    		authGroup.setUsername(user.getUserName());
     		authGroup = userAuthGroupRepository.save(authGroup);
     		
     	}
-        return "Welcome, " + oidcUser.getFullName();
+        return "Welcome, " + user.getDesignation() + " "+ userAuthGroupRepository.findByUsername(oidcUser.getEmail());
     }
 
     @RequestMapping("/attributes")

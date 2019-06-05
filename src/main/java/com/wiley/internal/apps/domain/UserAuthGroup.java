@@ -11,7 +11,12 @@ import javax.persistence.Table;
 @Table(name="AUTH_USER_GROUP")
 public class UserAuthGroup {
 	
-    @Id
+    @Override
+	public String toString() {
+		return "UserAuthGroup [id=" + id + ", username=" + username + ", authGroup=" + authGroup + "]";
+	}
+
+	@Id
     @Column(name="AUTH_USER_GROUP_ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
