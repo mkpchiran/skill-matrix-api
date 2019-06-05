@@ -1,5 +1,6 @@
 package com.wiley.internal.apps.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -61,6 +62,17 @@ public class UserSkillServiceImpl implements UserSkillService {
 		userSkill.setSkillLevel(skillLevel.get());
 		
 		return this.userSkillRepository.save(userSkill);
+	}
+
+	@Override
+	public List<UserSkill> getSkillForUser(String username) {
+		// TODO Auto-generated method stub
+		Optional<User> user = this.userRepository.findById(username);
+		
+		if (!user.isPresent()) {
+			throw new UserNotFoundException("User does not exsits :: " + username);
+		}
+		return this.userSkillRepository.findByUser(user.get());
 	}
 
 }

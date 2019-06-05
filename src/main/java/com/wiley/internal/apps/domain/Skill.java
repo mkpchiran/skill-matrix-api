@@ -1,11 +1,16 @@
 package com.wiley.internal.apps.domain;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
 @Table(name = "SKILL")
@@ -19,6 +24,14 @@ public class Skill {
 	@Column(name = "Name")
 	private String name;
 
+    @CreatedDate
+    @Column(name = "created_date")
+    private Date createdDate;
+    
+    @LastModifiedDate
+    @Column(name = "last_modified_date")
+    private Date lastModifiedDate;
+    
 	public Long getId() {
 		return id;
 	}
@@ -35,4 +48,20 @@ public class Skill {
 		this.name = name;
 	}
 	
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Date getLastModifiedDate() {
+		return lastModifiedDate;
+	}
+
+	public void setLastModifiedDate(Date lastModifiedDate) {
+		this.lastModifiedDate = lastModifiedDate;
+	}
+	    
 }

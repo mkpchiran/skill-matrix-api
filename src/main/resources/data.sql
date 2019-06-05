@@ -8,7 +8,7 @@ insert into user (user_name, designation) values ('mbandara', 'Technical Special
 insert into user (user_name, designation) values ('cananda', 'Senior Technical Lead');
 insert into user (user_name, designation) values ('uhoranagama', 'Senior Technical Specialist');
 insert into user (user_name, designation) values ('cprathiba', 'Senior Software Engineer');
-insert into user (user_name, designation, password) values ('mkpchiran@gmail.com', 'Software Engineer','');
+insert into user (user_name, designation) values ('mkpchiran@gmail.com', 'Software Engineer');
 
 insert into skill_level (skill_level_id,  value, description) values (2500, 'Beginner', 'Do not have experience');
 insert into skill_level (skill_level_id,  value, description) values (2501, 'Average', 'Have average experience');
