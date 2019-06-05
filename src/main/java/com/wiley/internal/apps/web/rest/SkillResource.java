@@ -43,24 +43,29 @@ public class SkillResource {
 	
     @PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping("/skills/{skillId}")
-	public String handleSkillGet(@PathVariable Long skillId) {
-		return "ok";
+	public Skill handleSkillGet(@PathVariable Long skillId) {
+		return skillService.findById(skillId);
 	}
 	
-    @PreAuthorize("hasRole('ROLE_USER')")
-	@GetMapping("/v1/skills/{skillName}")
-	public List<Skill> handleSkillGet(@PathVariable String skillName) {
-		return this.skillService.findSkillByName(skillName);
+//  @PreAuthorize("hasRole('ROLE_USER')")
+//	@GetMapping("/v1/skills/{skillName}")
+//	public List<Skill> handleSkillGet(@PathVariable String skillName) {
+//		return this.skillService.findSkillByName(skillName);
+//	}
+    
+	@GetMapping("/v1/skills/{userName}")
+	public List<UserSkill> handleSkillGet(@PathVariable String userName) {
+		return userSkillService.getSkillForUser(userName);
 	}
 
 	@GetMapping("/v1/skills")
 	public List<Skill> handleSkillGetAll() {
-		return this.skillService.retrieveAllSkills();
+		return skillService.retrieveAllSkills();
 	}
 
 	@DeleteMapping("/v1/skills/{skillId}")
 	public void handleSkillDelete(@PathVariable Long skillId) {
-		this.skillService.deleteSkill(skillId);
+				skillService.deleteSkill(skillId);
 	}
 
 	@GetMapping("/v1/skills/users/skillusersearch")

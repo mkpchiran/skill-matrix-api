@@ -10,9 +10,9 @@ insert into user (user_name, designation) values ('uhoranagama', 'Senior Technic
 insert into user (user_name, designation) values ('cprathiba', 'Senior Software Engineer');
 insert into user (user_name, designation) values ('mkpchiran@gmail.com', 'Software Engineer');
 
-insert into skill_level (skill_level_id,  value, description) values (2500, 'Beginner', 'Do not have experience');
-insert into skill_level (skill_level_id,  value, description) values (2501, 'Average', 'Have average experience');
-insert into skill_level (skill_level_id,  value, description) values (2502, 'Expert', 'Well experienced');
+insert into skill_level (skill_level_id,  value, description) values (2500, 5, 'Do not have experience');
+insert into skill_level (skill_level_id,  value, description) values (2501, 6, 'Have average experience');
+insert into skill_level (skill_level_id,  value, description) values (2502, 4, 'Well experienced');
 
 
 insert into user_skill (user_skill_id, experience, skill_id, skill_level_id, user_name) values (3000, 9.5, 1200, 2502, 'mbandara');

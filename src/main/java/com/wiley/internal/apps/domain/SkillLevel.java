@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -22,7 +23,8 @@ public class SkillLevel {
 	private Long id;
 
 	@Column(name = "VALUE")
-	private String value;
+	@Size(min = 1, max = 5, message = "Skill value should be within 1-5 ")
+	private Integer value;
 
 	@Column(name = "DESCRIPTION")
 	private String description;
@@ -43,11 +45,11 @@ public class SkillLevel {
 		this.id = id;
 	}
 
-	public String getValue() {
+	public Integer getValue() {
 		return value;
 	}
 
-	public void setValue(String value) {
+	public void setValue(Integer value) {
 		this.value = value;
 	}
 

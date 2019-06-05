@@ -47,4 +47,10 @@ public class UserServiceImpl implements UserService {
 		return userOprtional.get();
 	}
 
+	@Override
+	public List<User> findByUserNameIgnoreCaseContaining(String userName) {
+		// TODO Auto-generated method stub
+		return userRepository.findByUserNameIgnoreCaseContaining(userName);
+	}
+
 }

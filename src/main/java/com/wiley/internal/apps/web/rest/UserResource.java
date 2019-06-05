@@ -28,15 +28,19 @@ public class UserResource {
 	private UserAuthService userAuthService;
 
 	@Autowired
-	public UserResource(final UserService userService, final UserSkillService userSkillService) {
+	public UserResource(
+			final UserService userService, 
+			final UserSkillService userSkillService, 
+			final UserAuthService userAuthService) {
+		
 		this.userService = userService;
 		this.userSkillService = userSkillService;
 		this.userAuthService = userAuthService;
 	}
 
 	@GetMapping("/v1/users/{userName}")
-	public User handleUserGet(@PathVariable String userName) {
-		return userService.findUser(userName);
+	public List<User> handleUserGet(@PathVariable String userName) {
+		return userService.findByUserNameIgnoreCaseContaining(userName);
 	}
 	
 	@GetMapping("/users/{userName}/roles")

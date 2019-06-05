@@ -37,4 +37,10 @@ public class SkillServiceImpl implements SkillService {
 		return this.skillRepository.findByNameContaining(skillName);
 	}
 
+	@Override
+	public Skill findById(Long id) {
+		// TODO Auto-generated method stub
+		return skillRepository.findById(id).get();
+	}
+
 }
