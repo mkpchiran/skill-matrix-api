@@ -3,6 +3,7 @@ package com.wiley.internal.apps.auth;
 import java.util.Arrays;
 
 import org.h2.server.web.WebServlet;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 @Configuration
+@ConditionalOnProperty(value = "app.security.basic.enabled", havingValue = "true")
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
     @Override
