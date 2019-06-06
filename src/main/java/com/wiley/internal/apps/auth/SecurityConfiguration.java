@@ -15,8 +15,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         httpSecurity.authorizeRequests().antMatchers("/login").permitAll().and()
                 .authorizeRequests().antMatchers("/h2-console/**").permitAll().and()
                 .authorizeRequests().antMatchers("/v1/**").authenticated();
-        httpSecurity.csrf().disable();
-        httpSecurity.headers().frameOptions().disable();
+//        httpSecurity.csrf().disable();
+//        httpSecurity.headers().frameOptions().disable();
     }
     
     @Bean
