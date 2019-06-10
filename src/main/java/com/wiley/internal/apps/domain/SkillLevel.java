@@ -10,11 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Proxy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
 @Table(name = "SKILL_LEVEL")
+@Proxy(lazy = false)
 public class SkillLevel {
 
 	@Id
@@ -23,7 +25,7 @@ public class SkillLevel {
 	private Long id;
 
 	@Column(name = "VALUE")
-	@Size(min = 1, max = 5, message = "Skill value should be within 1-5 ")
+	@Size(min = 1, max = 10, message = "Skill value should be within 1-5 ")
 	private Integer value;
 
 	@Column(name = "DESCRIPTION")

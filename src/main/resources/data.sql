@@ -20,6 +20,8 @@ insert into user_skill (user_skill_id, experience, skill_id, skill_level_id, use
 insert into user_skill (user_skill_id, experience, skill_id, skill_level_id, user_name) values (3002, 9.5, 1201, 2501, 'mbandara');
 insert into user_skill (user_skill_id, experience, skill_id, skill_level_id, user_name) values (3003, 3.5, 1201, 2500, 'cprathiba');
 insert into user_skill (user_skill_id, experience, skill_id, skill_level_id, user_name) values (3004, 3.5, 1200, 2501, 'cprathiba');
+insert into user_skill (user_skill_id, experience, skill_id, skill_level_id, user_name) values (3005, 3.5, 1201, 2500, 'mkpchiran@gmail.com');
+insert into user_skill (user_skill_id, experience, skill_id, skill_level_id, user_name) values (3006, 3.5, 1200, 2501, 'mkpchiran@gmail.com');
 
 insert into AUTH_USER_GROUP (USERNAME, AUTH_GROUP) values ('mkpchiran@gmail.com', 'ADMIN');
 insert into AUTH_USER_GROUP (USERNAME, AUTH_GROUP) values ('mkpchiran@gmail.com', 'USER');

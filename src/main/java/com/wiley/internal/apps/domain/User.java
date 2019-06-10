@@ -8,11 +8,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Proxy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
 @Table(name = "USER")
+@Proxy(lazy = false)
 public class User {
 
 	@Id

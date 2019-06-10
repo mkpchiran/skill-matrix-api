@@ -37,10 +37,15 @@
 		    <version>1.2.0</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.springframework.security.oauth</groupId>
-		    <artifactId>spring-security-oauth2</artifactId>
-		    <version>2.3.3.RELEASE</version>
-		</dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+    	
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 		<dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -68,14 +73,69 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+            <groupId>com.okta.oidc.tck</groupId>
+            <artifactId>okta-oidc-tck</artifactId>
+            <version>0.5.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy</artifactId>
+            <version>2.5.6</version>
+            <scope>test</scope>
+        </dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <fork>false</fork>
+                </configuration>
+            </plugin>
+
+            <!-- extract the tck keystore -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>com.okta.oidc.tck</groupId>
+                      <artifactId>okta-oidc-tck</artifactId>
+                      <outputDirectory>${project.build.directory}</outputDirectory>
+                      <destFileName>tck-keystore.jks</destFileName>
+                      <includes>tck-keystore.jks</includes>
+                    </artifactItem>
+                  </artifactItems>
+                </configuration>
+              </plugin>
+              <!-- Tell failsafe to run Okta's oidc-tck -->
+              <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.22.1</version>
+                <configuration>
+                    <dependenciesToScan>
+                        <dependency>com.okta.oidc.tck:okta-oidc-tck</dependency>
+                    </dependenciesToScan>
+                    <systemPropertyVariables>
+                        <okta.tck.redirectOnError>true</okta.tck.redirectOnError>
+                        <javax.net.ssl.trustStore>${project.build.directory}/tck-keystore.jks</javax.net.ssl.trustStore>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 

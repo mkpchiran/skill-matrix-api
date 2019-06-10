@@ -1,48 +1,65 @@
-//package com.wiley.internal.apps.auth;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-//import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-//import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-//import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
-//import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
-//import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-//
-//@EnableWebSecurity
-//@Configuration
-//@EnableGlobalMethodSecurity(prePostEnabled=true)
-//@ConditionalOnProperty(value = "app.security.basic.enabled", havingValue = "true")
-//public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapter {
-//
-//	@Autowired
-//    private WileyUserDetailsService userDetailsService;
-//	
-//	@Bean
-//    public DaoAuthenticationProvider authenticationProvider(){
-//		
-//        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-//        provider.setUserDetailsService(userDetailsService);
-//        provider.setAuthoritiesMapper(authoritiesMapper());
-//        provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
-//        return provider;
-//    }
-//		
-//	@Bean
-//    public GrantedAuthoritiesMapper authoritiesMapper(){
-//        SimpleAuthorityMapper authorityMapper = new SimpleAuthorityMapper();
-//        authorityMapper.setConvertToUpperCase(true);
-//        authorityMapper.setDefaultAuthority("USER");
-//        return authorityMapper;
-//    }
-//	
-//	@Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.authenticationProvider(authenticationProvider());
-//    }
-//}
+package com.wiley.internal.apps.auth;
+
+import java.util.Arrays;
+import java.util.Collections;
+
+import org.h2.server.web.WebServlet;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+@Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@ConditionalOnProperty(value = "app.security.basic.enabled", havingValue = "true")
+public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+
+		http
+		.csrf().disable().headers().frameOptions().disable()
+		.and()
+		.authorizeRequests().antMatchers("/h2-console/**").permitAll()
+		.and()
+		.authorizeRequests().antMatchers("/health").permitAll()
+		.and()
+		.authorizeRequests().antMatchers(HttpMethod.OPTIONS, "**").permitAll()
+		.and()
+		.authorizeRequests().anyRequest().authenticated()
+		.and()
+		.oauth2ResourceServer().jwt();
+	}
+
+	@Bean
+	ServletRegistrationBean h2servletRegistration() {
+		ServletRegistrationBean registrationBean = new ServletRegistrationBean(new WebServlet());
+		registrationBean.addUrlMappings("/h2-console/*");
+		return registrationBean;
+	}
+
+	@Bean
+	public FilterRegistrationBean<CorsFilter> simpleCorsFilter() {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration config = new CorsConfiguration();
+		config.setAllowCredentials(true);
+		config.setAllowedOrigins(Arrays.asList("*"));
+		config.setAllowedMethods(Collections.singletonList("*"));
+		config.setAllowedHeaders(Collections.singletonList("*"));
+		source.registerCorsConfiguration("/**", config);
+		FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
+		bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+		return bean;
+	}
+}

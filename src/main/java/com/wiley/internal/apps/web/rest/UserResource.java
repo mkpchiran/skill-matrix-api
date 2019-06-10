@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,24 +39,28 @@ public class UserResource {
 		this.userAuthService = userAuthService;
 	}
 
-	@GetMapping("/v1/users/{userName}")
+	@GetMapping("/v1/users/{userName:.+}/get")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	public List<User> handleUserGet(@PathVariable String userName) {
 		return userService.findByUserNameIgnoreCaseContaining(userName);
 	}
 	
-	@GetMapping("/users/{userName}/roles")
+	@GetMapping("/users/{userName:.+}/roles")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	public List<String> handleUserGetUserRoles(@PathVariable String userName) {
 		return userAuthService.getByUsername(userName);
 	}
 
-	@DeleteMapping("/v1/users/{userName}")
+	@DeleteMapping("/v1/users/{userName:.+}/delete")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	public void handleUserDelete(@PathVariable String userName) {
 		this.userService.deleteUser(userName);
 	}
 
-	@PostMapping("/v1/users/{userName}/skills")
+	@PostMapping("/v1/users/{userName:.+}/skills")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	public ResponseEntity<UserSkill> handleUserSkillCreate(@RequestBody UserSkill userSkill) {
-		return new ResponseEntity<>(this.userSkillService.createSkillForUser(userSkill), HttpStatus.CREATED);
+		return new ResponseEntity<>(userSkillService.createSkillForUser(userSkill), HttpStatus.CREATED);
 	}
 
 }

@@ -9,11 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Proxy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
 @Table(name="AUTH_USER_GROUP")
+@Proxy(lazy = false)
 public class UserAuthGroup {
 	
 	@Id

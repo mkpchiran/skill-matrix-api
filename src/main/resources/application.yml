@@ -18,6 +18,11 @@ spring:
   logging:
     file: skill-matrix.log
     path: ~/
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-268158.okta.com/oauth2/default
   datasource:  
 #    username: root
 #    password: root
@@ -26,11 +31,11 @@ spring:
 app:
   security:
     basic: 
-      enabled: false
-okta:
-  oauth2:
-    issuer: https://dev-268158.okta.com/oauth2/default
-    clientId: 0oaocww3nHiMX0Ixl356
-    clientSecret: 4q6_Aw0keav6atCn1t5ODbL9UV8pbR7nzHw-ZcSs
-    redirect-uri: /authorization-code/callback
+      enabled: true
+#okta:
+#  oauth2:
+#    issuer: https://dev-268158.okta.com/oauth2/default
+#    clientId: 0oaocww3nHiMX0Ixl356
+#    clientSecret: 4q6_Aw0keav6atCn1t5ODbL9UV8pbR7nzHw-ZcSs
+#    redirect-uri: /authorization-code/callback
     

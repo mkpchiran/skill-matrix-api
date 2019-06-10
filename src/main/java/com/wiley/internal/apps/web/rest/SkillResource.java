@@ -37,38 +37,37 @@ public class SkillResource {
 	}
 
 	@PostMapping("/v1/skills")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<Skill> handleSkillCreateAndUpdate(@Valid @RequestBody Skill skill) {
-		return new ResponseEntity<>(this.skillService.createSkill(skill), HttpStatus.CREATED);
+		return new ResponseEntity<>(skillService.createSkill(skill), HttpStatus.CREATED);
 	}
 	
-    @PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping("/skills/{skillId}")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	public Skill handleSkillGet(@PathVariable Long skillId) {
 		return skillService.findById(skillId);
 	}
 	
-//  @PreAuthorize("hasRole('ROLE_USER')")
-//	@GetMapping("/v1/skills/{skillName}")
-//	public List<Skill> handleSkillGet(@PathVariable String skillName) {
-//		return this.skillService.findSkillByName(skillName);
-//	}
-    
-	@GetMapping("/v1/skills/{userName}")
+	@GetMapping("/v1/skills/{userName:.+}")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	public List<UserSkill> handleSkillGet(@PathVariable String userName) {
 		return userSkillService.getSkillForUser(userName);
 	}
 
 	@GetMapping("/v1/skills")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	public List<Skill> handleSkillGetAll() {
 		return skillService.retrieveAllSkills();
 	}
 
 	@DeleteMapping("/v1/skills/{skillId}")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void handleSkillDelete(@PathVariable Long skillId) {
 				skillService.deleteSkill(skillId);
 	}
 
 	@GetMapping("/v1/skills/users/skillusersearch")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	public List<UserSkill> handleSkillsUsersSearch(@RequestParam String filter) {
 		// sample filter =
 		// skillId::1200,skillLevelId::2502;skillId::1201,skillLevelId::2501
@@ -93,7 +92,7 @@ public class SkillResource {
 			usersSkills.add(userSkill);
 		}
 
-		return this.userSkillService.filterUsersForSkills(usersSkills);
+		return userSkillService.filterUsersForSkills(usersSkills);
 	}
 
 }
